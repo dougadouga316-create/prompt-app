@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI画像プロンプト一覧</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6255e0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="プロンプト">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #f5f6fa;
+    --surface: #ffffff;
+    --surface2: #f0f1f6;
+    --border: #dde0ea;
+    --accent: #6255e0;
+    --accent2: #7c6af7;
+    --accent-glow: rgba(98,85,224,0.08);
+    --text: #1a1c2a;
+    --text-muted: #6b7280;
+    --text-dim: #9ca3af;
+    --green: #10b981;
+    --red: #ef4444;
+    --builder-bg: #f8f9fd;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    flex-shrink: 0;
+  }
+  .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--accent-glow);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(124,106,247,0.25);
+  }
+  header h1 { font-size: 15px; font-weight: 600; }
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .copy-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+  .copy-count span { color: var(--accent); font-weight: 700; }
+  .hdr-btn {
+    padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-muted);
+    font-family: 'Noto Sans JP', sans-serif; font-size: 12px;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .hdr-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+  .hdr-btn.warn { border-color: #f59e0b; color: #f59e0b; }
+  .sync-status { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-dim); }
+  .sync-dot.ok { background: var(--green); }
+  .sync-dot.error { background: var(--red); }
+  .sync-dot.loading { background: #f59e0b; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* ── LAYOUT ── */
+  .app { display: flex; flex: 1; min-height: 0; height: calc(100vh - 53px); }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 190px; flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+    overflow-y: auto;
+    display: flex; flex-direction: column;
+  }
+  .sidebar-header {
+    padding: 10px 8px 4px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .sidebar-title { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); padding: 4px 4px; }
+  .sort-hint { font-size: 10px; color: var(--text-dim); }
+
+  #catList { flex: 1; padding: 4px 6px; overflow-y: auto; }
+
+  .cat-btn {
+    display: flex; align-items: center; width: 100%;
+    text-align: left; padding: 8px 8px; border-radius: 6px;
+    border: none; background: none; color: var(--text-dim);
+    font-family: 'Noto Sans JP', sans-serif; font-size: 12px;
+    cursor: pointer; transition: all 0.12s; gap: 6px;
+    margin-bottom: 2px; user-select: none;
+  }
+  .cat-btn:hover { background: var(--surface2); color: var(--text); }
+  .cat-btn.active { background: var(--accent-glow); color: var(--accent); border-left: 2px solid var(--accent); padding-left: 6px; font-weight: 600; }
+  .cat-btn .drag-handle { color: var(--text-dim); font-size: 13px; cursor: grab; flex-shrink: 0; padding: 0 2px; }
+  .cat-btn .drag-handle:active { cursor: grabbing; }
+  .cat-btn .cat-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cat-btn .count { font-size: 10px; background: var(--surface2); padding: 1px 5px; border-radius: 10px; color: var(--text-muted); flex-shrink: 0; }
+  .cat-btn.active .count { background: var(--accent-glow); color: var(--accent); }
+  .cat-btn.drag-over { border: 1px dashed var(--accent); background: var(--accent-glow); }
+  .cat-btn.dragging { opacity: 0.4; }
+
+  .sidebar-footer { padding: 8px 8px 12px; border-top: 1px solid var(--border); }
+  .add-cat-btn {
+    width: 100%; padding: 8px 10px; border-radius: 6px;
+    border: 1px dashed var(--border); background: none;
+    color: var(--text-muted); font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; cursor: pointer; transition: all 0.15s; text-align: left;
+  }
+  .add-cat-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+
+  /* ── CENTER ── */
+  .center { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+  .center-top { padding: 12px 18px 10px; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+  .search-input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 7px; padding: 8px 14px; color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif; font-size: 13px;
+    outline: none; transition: border-color 0.2s; margin-bottom: 8px;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--text-muted); }
+  .cat-header { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .cat-header h2 { font-size: 15px; font-weight: 600; }
+  .cat-header .sub { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+  .cat-header-actions { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* ③ プロンプト全表示: overflow-y auto, flex: 1 */
+  .prompt-list { flex: 1; overflow-y: auto; padding: 14px 18px; }
+  .prompt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+
+  /* ── CARD ── */
+  .prompt-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 9px; padding: 11px 13px; cursor: pointer;
+    transition: all 0.13s; position: relative; overflow: hidden; user-select: none;
+  }
+  .prompt-card:hover { border-color: rgba(98,85,224,0.4); box-shadow: 0 2px 8px rgba(98,85,224,0.08); transform: translateY(-1px); }
+  .prompt-card:active { transform: translateY(0); }
+  .prompt-card.in-builder { border-color: var(--accent); background: var(--accent-glow); }
+  .prompt-card.flash-copy { border-color: var(--green) !important; background: rgba(16,185,129,0.06) !important; }
+  .card-actions { position: absolute; top: 7px; right: 7px; display: flex; gap: 3px; opacity: 0; transition: opacity 0.13s; z-index: 2; }
+  .prompt-card:hover .card-actions { opacity: 1; }
+  .card-btn {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 4px;
+    padding: 2px 6px; font-size: 10px; color: var(--text-muted);
+    cursor: pointer; transition: all 0.12s; font-family: 'JetBrains Mono', monospace; white-space: nowrap;
+  }
+  .card-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-glow); }
+  .card-btn.add-btn:hover { color: var(--green); border-color: var(--green); background: rgba(16,185,129,0.07); }
+  .card-btn.edit-btn:hover { color: #f59e0b; border-color: #f59e0b; background: rgba(245,158,11,0.07); }
+  .card-btn.del-btn:hover { color: var(--red); border-color: var(--red); background: rgba(239,68,68,0.06); }
+  .prompt-en { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 3px; word-break: break-all; padding-right: 4px; line-height: 1.4; }
+  .prompt-ja { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+  /* ── BUILDER ── */
+  .builder { width: 290px; flex-shrink: 0; border-left: 1px solid var(--border); background: var(--builder-bg); display: flex; flex-direction: column; }
+  .builder-header { padding: 13px 15px 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; background: var(--surface); }
+  .builder-header h3 { font-size: 13px; font-weight: 600; }
+  .builder-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-left: auto; }
+  .builder-count span { color: var(--accent); font-weight: 700; }
+  .builder-output-wrap { padding: 11px 13px; border-bottom: 1px solid var(--border); flex-shrink: 0; background: var(--surface); }
+  .builder-output-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 5px; }
+  .builder-output {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 7px;
+    padding: 9px 11px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent); line-height: 1.6; min-height: 54px; word-break: break-all;
+  }
+  .builder-output.empty { color: var(--text-muted); font-style: italic; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; }
+  .builder-actions { display: flex; gap: 6px; margin-top: 7px; }
+  .action-btn { flex: 1; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border); font-family: 'Noto Sans JP', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.15s; font-weight: 500; }
+  .action-btn.copy-all { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .action-btn.copy-all:hover { background: var(--accent2); }
+  .action-btn.clear-all { background: var(--surface2); color: var(--text-muted); }
+  .action-btn.clear-all:hover { background: rgba(239,68,68,0.08); color: var(--red); border-color: var(--red); }
+  .builder-tags { flex: 1; overflow-y: auto; padding: 8px 13px; }
+  .builder-tag { display: flex; align-items: flex-start; gap: 7px; padding: 8px 0; border-bottom: 1px solid var(--border); animation: slideIn 0.15s ease; }
+  @keyframes slideIn { from{opacity:0;transform:translateX(8px)} to{opacity:1;transform:translateX(0)} }
+  .builder-tag-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); min-width: 16px; padding-top: 2px; flex-shrink: 0; }
+  .builder-tag-text { flex: 1; min-width: 0; }
+  .builder-tag-en { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); word-break: break-all; }
+  .builder-tag-ja { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .tag-remove { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 13px; padding: 1px 3px; border-radius: 3px; transition: all 0.12s; flex-shrink: 0; }
+  .tag-remove:hover { color: var(--red); background: rgba(239,68,68,0.08); }
+  .builder-empty { text-align: center; padding: 28px 16px; color: var(--text-muted); font-size: 12px; line-height: 1.9; }
+
+  /* ── MODAL ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 500; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.15s ease; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  .modal { background: var(--surface); border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.15); width: 480px; max-width: 95vw; max-height: 90vh; display: flex; flex-direction: column; animation: slideUp 0.18s ease; }
+  @keyframes slideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  .modal.wide { width: 580px; }
+  .modal-header { padding: 18px 20px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .modal-header h3 { font-size: 15px; font-weight: 600; }
+  .modal-close { margin-left: auto; background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; border-radius: 5px; padding: 2px 6px; transition: all 0.12s; }
+  .modal-close:hover { background: var(--surface2); color: var(--text); }
+  .modal-body { padding: 18px 20px; overflow-y: auto; flex: 1; }
+  .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; display: block; }
+  .form-input, .form-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 9px 12px; color: var(--text); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; outline: none; transition: border-color 0.2s; }
+  .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-textarea { resize: vertical; min-height: 80px; }
+  .form-hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ── SM BUTTONS ── */
+  .sm-btn { padding: 5px 11px; border-radius: 5px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-size: 11px; cursor: pointer; transition: all 0.12s; font-family: 'Noto Sans JP', sans-serif; white-space: nowrap; }
+  .sm-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+  .sm-btn.danger:hover { border-color: var(--red); color: var(--red); background: rgba(239,68,68,0.06); }
+  .sm-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .sm-btn.primary:hover { background: var(--accent2); }
+
+  /* ── SYNC MODAL ── */
+  .sync-input { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .sync-info { background: var(--surface2); border-radius: 8px; padding: 12px 14px; font-size: 12px; line-height: 1.8; color: var(--text-muted); margin-bottom: 14px; }
+  .sync-info strong { color: var(--text); }
+
+  /* ── TOAST ── */
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(10px); background: #1a1c2a; border: 1px solid #2a2d3a; color: #e2e4f0; font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 9px 18px; border-radius: 8px; opacity: 0; transition: all 0.2s; pointer-events: none; z-index: 999; max-width: 480px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .empty { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: 13px; }
+
+  /* ── MOBILE ── */
+  .mob-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); z-index: 150; height: 58px; align-items: stretch; }
+  .mob-nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: none; background: none; color: var(--text-muted); font-family: 'Noto Sans JP', sans-serif; font-size: 10px; cursor: pointer; transition: color 0.15s; padding: 6px 0; }
+  .mob-nav-btn .icon { font-size: 20px; line-height: 1; }
+  .mob-nav-btn.active { color: var(--accent); }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 700px) {
+    header { padding: 10px 12px; }
+    header h1 { font-size: 13px; }
+    .logo { display: none; }
+    .copy-count { display: none; }
+    .sync-status { display: none; }
+    .hdr-btn { padding: 5px 8px; font-size: 11px; }
+    .app { height: calc(100vh - 45px - 58px); }
+    .sidebar { display: none; width: 100%; border-right: none; }
+    .center  { display: none; width: 100%; }
+    .builder { display: none; width: 100%; border-left: none; }
+    .sidebar.mob-active  { display: flex; }
+    .center.mob-active   { display: flex; }
+    .builder.mob-active  { display: flex; }
+    .mob-nav { display: flex; }
+    .modal, .modal.wide { width: 95vw; }
+    .prompt-grid { grid-template-columns: 1fr; }
+    .prompt-card { padding: 13px 14px; }
+    .prompt-en { font-size: 13px; }
+    .prompt-ja { font-size: 12px; }
+    .card-actions { opacity: 1; top: 10px; right: 8px; }
+    .cat-header-actions { margin-left: 0; width: 100%; }
+    .sort-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">PROMPT</div>
+  <h1>AI画像プロンプト一覧</h1>
+  <div class="header-right">
+    <div class="sync-status">
+      <div class="sync-dot" id="syncDot"></div>
+      <span id="syncLabel">未設定</span>
+    </div>
+    <div class="copy-count">コピー: <span id="copyCount">0</span></div>
+    <button class="hdr-btn" onclick="openSyncSettings()">☁ DB設定</button>
+    <button class="hdr-btn" onclick="openManage()">⚙ 管理</button>
+  </div>
+</header>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebarEl">
+    <div class="sidebar-header">
+      <span class="sidebar-title">カテゴリ</span>
+      <span class="sort-hint">☰ ドラッグで並替</span>
+    </div>
+    <div id="catList"></div>
+    <div class="sidebar-footer">
+      <button class="add-cat-btn" onclick="openAddCat()">＋ カテゴリを追加</button>
+    </div>
+  </aside>
+
+  <!-- CENTER -->
+  <div class="center" id="centerEl">
+    <div class="center-top">
+      <input class="search-input" type="text" id="searchInput" placeholder="🔍 英語・日本語で検索...">
+      <div class="cat-header">
+        <h2 id="catTitle">カテゴリを選択</h2>
+        <span class="sub" id="catSub"></span>
+        <div class="cat-header-actions" id="catHeaderActions" style="display:none">
+          <button class="sm-btn" onclick="openRenameCat()">✏ 名前変更</button>
+          <button class="sm-btn primary" onclick="openAddPrompt()">＋ 追加</button>
+          <button class="sm-btn danger" onclick="deleteCurrentCat()">🗑 削除</button>
+        </div>
+      </div>
+    </div>
+    <div class="prompt-list">
+      <div class="prompt-grid" id="grid"></div>
+    </div>
+  </div>
+
+  <!-- BUILDER -->
+  <div class="builder" id="builderEl">
+    <div class="builder-header">
+      <h3>📝 プロンプトビルダー</h3>
+      <div class="builder-count"><span id="builderCount">0</span> 件</div>
+    </div>
+    <div class="builder-output-wrap">
+      <div class="builder-output-label">生成されるプロンプト</div>
+      <div class="builder-output empty" id="builderOutput">「＋追加」で積み上げていく...</div>
+      <div class="builder-actions">
+        <button class="action-btn copy-all" onclick="copyAll()">📋 全てコピー</button>
+        <button class="action-btn clear-all" onclick="clearAll()">🗑 クリア</button>
+      </div>
+    </div>
+    <div class="builder-tags" id="builderTags">
+      <div class="builder-empty">カードの「＋追加」ボタンで<br>ここにプロンプトが積み上がります<br><br>カードをクリックで単体コピー</div>
+    </div>
+  </div>
+</div>
+
+<!-- スマホ ボトムナビ -->
+<nav class="mob-nav" id="mobNav">
+  <button class="mob-nav-btn active" id="mnCat" onclick="mobSwitch('cat')">
+    <span class="icon">☰</span><span>カテゴリ</span>
+  </button>
+  <button class="mob-nav-btn" id="mnPrompt" onclick="mobSwitch('prompt')">
+    <span class="icon">📋</span><span>プロンプト</span>
+  </button>
+  <button class="mob-nav-btn" id="mnBuilder" onclick="mobSwitch('builder')">
+    <span class="icon">📝</span><span>ビルダー</span>
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+<div id="modalContainer"></div>
+
+<script>
+// ══════════════════════════════════════════
+//  MOBILE（最初に定義）
+// ══════════════════════════════════════════
+function mobSwitch(panel) {
+  if (window.innerWidth > 700) return;
+  document.getElementById('sidebarEl').classList.toggle('mob-active',  panel === 'cat');
+  document.getElementById('centerEl').classList.toggle('mob-active',   panel === 'prompt');
+  document.getElementById('builderEl').classList.toggle('mob-active',  panel === 'builder');
+  document.getElementById('mnCat').classList.toggle('active',     panel === 'cat');
+  document.getElementById('mnPrompt').classList.toggle('active',  panel === 'prompt');
+  document.getElementById('mnBuilder').classList.toggle('active', panel === 'builder');
+}
+function initMobile() {
+  if (window.innerWidth <= 700) {
+    document.getElementById('sidebarEl').classList.add('mob-active');
+  }
+}
+
+// ══════════════════════════════════════════
+//  STATE & STORAGE
+// ══════════════════════════════════════════
+const LS_DATA     = 'promptData_v2';
+const LS_ORDER    = 'promptCatOrder_v2';
+const LS_SYNC_URL = 'promptSyncUrl_v2';
+
+let data         = {};
+let catOrder     = [];   // ① カテゴリ順序
+let currentCat   = null;
+let copyCount    = 0;
+let builderItems = [];
+let toastTimer   = null;
+let syncUrl      = localStorage.getItem(LS_SYNC_URL) || '';
+
+// デフォルトデータ（フォールバック用）
+const DEFAULT_DATA = {"画角":[],"作風":[],"年齢層":[]};
+
+function loadLocalData() {
+  try {
+    const saved = localStorage.getItem(LS_DATA);
+    data = saved ? JSON.parse(saved) : {};
+    const savedOrder = localStorage.getItem(LS_ORDER);
+    catOrder = savedOrder ? JSON.parse(savedOrder) : Object.keys(data);
+    // catOrderにない新しいカテゴリを末尾に追加
+    Object.keys(data).forEach(k => { if (!catOrder.includes(k)) catOrder.push(k); });
+    // catOrderから削除済みカテゴリを除去
+    catOrder = catOrder.filter(k => data[k] !== undefined);
+  } catch(e) {
+    data = {}; catOrder = [];
+  }
+}
+
+function saveLocalData() {
+  localStorage.setItem(LS_DATA, JSON.stringify(data));
+  localStorage.setItem(LS_ORDER, JSON.stringify(catOrder));
+}
+
+// ══════════════════════════════════════════
+//  ④ GITHUB JSON 同期
+// ══════════════════════════════════════════
+function setSyncStatus(state, label) {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  dot.className = 'sync-dot' + (state ? ' ' + state : '');
+  lbl.textContent = label;
+}
+
+async function fetchFromGitHub() {
+  if (!syncUrl) return;
+  setSyncStatus('loading', '同期中...');
+  try {
+    const res = await fetch(syncUrl + '?_=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const remote = await res.json();
+    // リモートデータをマージ（ローカル優先ではなくリモート優先）
+    data = remote;
+    // 順序はローカルを維持しつつ新カテゴリを追記
+    const localOrder = catOrder.filter(k => data[k] !== undefined);
+    Object.keys(data).forEach(k => { if (!localOrder.includes(k)) localOrder.push(k); });
+    catOrder = localOrder;
+    saveLocalData();
+    setSyncStatus('ok', '同期済み');
+    renderSidebar();
+    if (currentCat && data[currentCat]) renderGrid(data[currentCat], currentCat);
+    showToast('☁ GitHubから最新データを取得しました');
+  } catch(e) {
+    setSyncStatus('error', '取得失敗');
+    showToast('⚠ GitHub取得失敗: ' + e.message);
+  }
+}
+
+function openSyncSettings() {
+  showModal({
+    title: '☁ GitHub JSON データベース設定',
+    body: `
+      <div class="sync-info">
+        <strong>仕組み：</strong><br>
+        GitHubリポジトリの <code>prompts.json</code> を読み込み先に設定します。<br>
+        JSONを更新するとアプリ起動時に自動反映されます。<br><br>
+        <strong>URLの形式：</strong><br>
+        <code>https://raw.githubusercontent.com/ユーザー名/リポジトリ名/main/prompts.json</code>
+      </div>
+      <div class="form-group">
+        <label class="form-label">GitHub Raw URL</label>
+        <input class="form-input sync-input" id="f_url" value="${escHtml(syncUrl)}" placeholder="https://raw.githubusercontent.com/...">
+        <div class="form-hint">GitHub の Raw URLを貼り付けてください</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="sm-btn" style="flex:1" onclick="testSyncUrl()">🔍 テスト接続</button>
+        <button class="sm-btn danger" onclick="clearSyncUrl()">接続解除</button>
+      </div>
+      <div id="syncTestResult" style="margin-top:10px;font-size:12px;color:var(--text-muted)"></div>
+    `,
+    confirmLabel: '保存して同期',
+    confirmClass: 'primary',
+    onConfirm: () => {
+      const url = document.getElementById('f_url').value.trim();
+      syncUrl = url;
+      localStorage.setItem(LS_SYNC_URL, url);
+      if (url) fetchFromGitHub();
+      else setSyncStatus('', '未設定');
+    }
+  });
+  setTimeout(() => document.getElementById('f_url').focus(), 50);
+}
+
+window.testSyncUrl = async function() {
+  const url = document.getElementById('f_url').value.trim();
+  const res_el = document.getElementById('syncTestResult');
+  if (!url) { res_el.textContent = '⚠ URLを入力してください'; return; }
+  res_el.textContent = '🔄 接続確認中...';
+  try {
+    const r = await fetch(url + '?_=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    const cats = Object.keys(j).length;
+    res_el.style.color = 'var(--green)';
+    res_el.textContent = `✅ 接続成功！ ${cats}カテゴリを確認`;
+  } catch(e) {
+    res_el.style.color = 'var(--red)';
+    res_el.textContent = '❌ 接続失敗: ' + e.message;
+  }
+};
+
+window.clearSyncUrl = function() {
+  document.getElementById('f_url').value = '';
+};
+
+// ══════════════════════════════════════════
+//  ① SIDEBAR（ドラッグ並替対応）
+// ══════════════════════════════════════════
+let dragSrcCat = null;
+
+function renderSidebar() {
+  const list = document.getElementById('catList');
+  list.innerHTML = '';
+
+  catOrder.forEach(cat => {
+    if (!data[cat]) return;
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (cat === currentCat ? ' active' : '');
+    btn.dataset.cat = cat;
+    btn.draggable = true;
+    btn.innerHTML = `
+      <span class="drag-handle" title="ドラッグで並替">☰</span>
+      <span class="cat-name">${escHtml(cat)}</span>
+      <span class="count">${data[cat].length}</span>
+    `;
+
+    // クリック（並替ハンドル以外）
+    btn.onclick = (e) => {
+      if (e.target.classList.contains('drag-handle')) return;
+      selectCategory(cat);
+    };
+
+    // ① ドラッグ並替
+    btn.addEventListener('dragstart', e => {
+      dragSrcCat = cat;
+      btn.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    btn.addEventListener('dragend', () => {
+      btn.classList.remove('dragging');
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('drag-over'));
+    });
+    btn.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      if (cat !== dragSrcCat) btn.classList.add('drag-over');
+    });
+    btn.addEventListener('dragleave', () => btn.classList.remove('drag-over'));
+    btn.addEventListener('drop', e => {
+      e.preventDefault();
+      btn.classList.remove('drag-over');
+      if (dragSrcCat && dragSrcCat !== cat) {
+        const fromIdx = catOrder.indexOf(dragSrcCat);
+        const toIdx   = catOrder.indexOf(cat);
+        catOrder.splice(fromIdx, 1);
+        catOrder.splice(toIdx, 0, dragSrcCat);
+        saveLocalData();
+        renderSidebar();
+        showToast(`↕ 「${dragSrcCat}」を移動しました`);
+      }
+    });
+
+    // スマホ用タッチ並替（長押し）
+    let touchTimer = null;
+    let touchDragCat = null;
+    btn.addEventListener('touchstart', e => {
+      touchTimer = setTimeout(() => {
+        touchDragCat = cat;
+        showToast('長押し：上下にスワイプして並替（未実装、PCで並替してください）');
+      }, 600);
+    }, { passive: true });
+    btn.addEventListener('touchend', () => clearTimeout(touchTimer));
+
+    list.appendChild(btn);
+  });
+}
+
+function selectCategory(cat) {
+  currentCat = cat;
+  renderSidebar();
+  document.getElementById('catHeaderActions').style.display = 'flex';
+  renderGrid(data[cat], cat);
+  // スマホ：プロンプト画面へ
+  if (window.innerWidth <= 700) mobSwitch('prompt');
+}
+
+// ══════════════════════════════════════════
+//  GRID（③ 全表示：スクロール対応）
+// ══════════════════════════════════════════
+function renderGrid(items, title) {
+  document.getElementById('catTitle').textContent = title || '検索結果';
+  document.getElementById('catSub').textContent   = `${items.length} プロンプト`;
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  if (!items.length) {
+    grid.innerHTML = '<div class="empty">プロンプトがありません<br><small>「＋ 追加」ボタンで追加できます</small></div>';
+    return;
+  }
+
+  // ③ 全件表示（仮想スクロールなし、全DOM生成）
+  items.forEach((item, idx) => {
+    const inBuilder = builderItems.some(b => b.en === item.en);
+    const card = document.createElement('div');
+    card.className  = 'prompt-card' + (inBuilder ? ' in-builder' : '');
+    card.dataset.en = item.en;
+    card.innerHTML  = `
+      <div class="card-actions">
+        <button class="card-btn add-btn">${inBuilder ? '✓済' : '＋追加'}</button>
+        <button class="card-btn copy-btn">コピー</button>
+        <button class="card-btn edit-btn">✏</button>
+        <button class="card-btn del-btn">🗑</button>
+      </div>
+      <div class="prompt-en">${escHtml(item.en)}</div>
+      <div class="prompt-ja">${escHtml(item.ja || '—')}</div>
+    `;
+    card.querySelector('.add-btn').onclick  = e => { e.stopPropagation(); addToBuilder(item, card); };
+    card.querySelector('.copy-btn').onclick = e => { e.stopPropagation(); copyPrompt(item.en, card); };
+    card.querySelector('.edit-btn').onclick = e => { e.stopPropagation(); openEditPrompt(idx, item); };
+    card.querySelector('.del-btn').onclick  = e => { e.stopPropagation(); deletePrompt(idx); };
+    card.onclick = () => copyPrompt(item.en, card);
+    grid.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════════
+//  COPY
+// ══════════════════════════════════════════
+function copyPrompt(text, card) {
+  writeClip(text);
+  copyCount++;
+  document.getElementById('copyCount').textContent = copyCount;
+  card.classList.add('flash-copy');
+  setTimeout(() => card.classList.remove('flash-copy'), 700);
+  showToast(`📋 ${text}`);
+}
+
+// ══════════════════════════════════════════
+//  BUILDER
+// ══════════════════════════════════════════
+function addToBuilder(item, card) {
+  const idx = builderItems.findIndex(b => b.en === item.en);
+  if (idx !== -1) {
+    builderItems.splice(idx, 1);
+    card.classList.remove('in-builder');
+    card.querySelector('.add-btn').textContent = '＋追加';
+    showToast(`✕ 削除: ${item.en}`);
+  } else {
+    builderItems.push(item);
+    card.classList.add('in-builder');
+    card.querySelector('.add-btn').textContent = '✓済';
+    showToast(`＋ 追加: ${item.en}`);
+  }
+  renderBuilder();
+}
+
+function removeFromBuilder(idx) {
+  const removed = builderItems.splice(idx, 1)[0];
+  const card = document.getElementById('grid').querySelector(`.prompt-card[data-en="${CSS.escape(removed.en)}"]`);
+  if (card) { card.classList.remove('in-builder'); const b = card.querySelector('.add-btn'); if(b) b.textContent='＋追加'; }
+  renderBuilder();
+}
+
+function renderBuilder() {
+  document.getElementById('builderCount').textContent = builderItems.length;
+  const out  = document.getElementById('builderOutput');
+  const tags = document.getElementById('builderTags');
+  if (!builderItems.length) {
+    out.textContent = '「＋追加」で積み上げていく...';
+    out.classList.add('empty');
+    tags.innerHTML = '<div class="builder-empty">カードの「＋追加」ボタンで<br>ここにプロンプトが積み上がります<br><br>カードをクリックで単体コピー</div>';
+    return;
+  }
+  const combined = builderItems.map(i => i.en.replace(/,\s*$/, '').trim()).join(', ');
+  out.textContent = combined;
+  out.classList.remove('empty');
+  tags.innerHTML = '';
+  builderItems.forEach((item, i) => {
+    const tag = document.createElement('div');
+    tag.className = 'builder-tag';
+    tag.innerHTML = `
+      <div class="builder-tag-num">${i+1}.</div>
+      <div class="builder-tag-text">
+        <div class="builder-tag-en">${escHtml(item.en)}</div>
+        ${item.ja ? `<div class="builder-tag-ja">${escHtml(item.ja)}</div>` : ''}
+      </div>
+      <button class="tag-remove" title="削除">✕</button>
+    `;
+    tag.querySelector('.tag-remove').onclick = () => removeFromBuilder(i);
+    tags.appendChild(tag);
+  });
+}
+
+function copyAll() {
+  if (!builderItems.length) { showToast('⚠ プロンプトがありません'); return; }
+  const combined = builderItems.map(i => i.en.replace(/,\s*$/, '').trim()).join(', ');
+  writeClip(combined);
+  copyCount++;
+  document.getElementById('copyCount').textContent = copyCount;
+  showToast(`📋 ${builderItems.length}件コピーしました`);
+}
+
+function clearAll() {
+  builderItems = [];
+  document.querySelectorAll('.prompt-card.in-builder').forEach(c => {
+    c.classList.remove('in-builder');
+    const b = c.querySelector('.add-btn'); if(b) b.textContent='＋追加';
+  });
+  renderBuilder();
+  showToast('🗑 クリアしました');
+}
+
+// ══════════════════════════════════════════
+//  ② CATEGORY CRUD
+// ══════════════════════════════════════════
+function openAddCat() {
+  showModal({
+    title: '＋ カテゴリを追加',
+    body: `
+      <div class="form-group">
+        <label class="form-label">カテゴリ名 *</label>
+        <input class="form-input" id="f_cat" placeholder="例: ポーズ" autocomplete="off">
+      </div>
+    `,
+    confirmLabel: '作成する', confirmClass: 'primary',
+    onConfirm: () => {
+      const name = document.getElementById('f_cat').value.trim();
+      if (!name) { alert('カテゴリ名は必須です'); return false; }
+      if (data[name] !== undefined) { alert('同じ名前のカテゴリが既に存在します'); return false; }
+      data[name] = [];
+      catOrder.push(name);
+      saveLocalData();
+      renderSidebar();
+      selectCategory(name);
+      showToast(`✅ カテゴリ「${name}」を作成しました`);
+    }
+  });
+  setTimeout(() => document.getElementById('f_cat').focus(), 50);
+}
+
+function openRenameCat() {
+  if (!currentCat) return;
+  const oldName = currentCat;
+  showModal({
+    title: '✏ カテゴリ名を変更',
+    body: `
+      <div class="form-group">
+        <label class="form-label">新しいカテゴリ名 *</label>
+        <input class="form-input" id="f_cat" value="${escHtml(oldName)}" autocomplete="off">
+      </div>
+    `,
+    confirmLabel: '変更する', confirmClass: 'primary',
+    onConfirm: () => {
+      const newName = document.getElementById('f_cat').value.trim();
+      if (!newName) { alert('カテゴリ名は必須です'); return false; }
+      if (newName !== oldName && data[newName] !== undefined) { alert('同じ名前のカテゴリが既に存在します'); return false; }
+      if (newName === oldName) return;
+      const newData = {};
+      Object.keys(data).forEach(k => { newData[k === oldName ? newName : k] = data[k]; });
+      data = newData;
+      catOrder = catOrder.map(k => k === oldName ? newName : k);
+      currentCat = newName;
+      saveLocalData();
+      renderSidebar();
+      renderGrid(data[currentCat], currentCat);
+      showToast(`✅ カテゴリ名を「${newName}」に変更しました`);
+    }
+  });
+  setTimeout(() => { const el = document.getElementById('f_cat'); el.focus(); el.select(); }, 50);
+}
+
+function deleteCurrentCat() {
+  if (!currentCat) return;
+  if (!confirm(`カテゴリ「${currentCat}」を削除しますか？`)) return;
+  delete data[currentCat];
+  catOrder = catOrder.filter(k => k !== currentCat);
+  currentCat = null;
+  saveLocalData();
+  renderSidebar();
+  document.getElementById('catTitle').textContent = 'カテゴリを選択';
+  document.getElementById('catSub').textContent = '';
+  document.getElementById('catHeaderActions').style.display = 'none';
+  document.getElementById('grid').innerHTML = '';
+  showToast('🗑 カテゴリを削除しました');
+}
+
+// ── MANAGE MODAL ──
+function openManage() {
+  const rows = catOrder.filter(c => data[c]).map(cat => `
+    <div class="manage-cat-row" style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);margin-bottom:6px">
+      <span style="color:var(--text-muted);font-size:13px">☰</span>
+      <span style="flex:1;font-size:13px;font-weight:600">${escHtml(cat)}</span>
+      <span style="font-size:11px;color:var(--text-muted)">${data[cat].length}件</span>
+      <button class="sm-btn" onclick="closeModal();currentCat='${escHtml(cat)}';openRenameCat()">名前変更</button>
+      <button class="sm-btn danger" onclick="if(confirm('「${escHtml(cat)}」を削除しますか？')){delete data['${escHtml(cat)}'];catOrder=catOrder.filter(k=>k!=='${escHtml(cat)}');if(currentCat==='${escHtml(cat)}')currentCat=null;saveLocalData();renderSidebar();closeModal();showToast('削除しました');}">削除</button>
+    </div>
+  `).join('');
+  showModal({
+    title: '⚙ カテゴリ管理',
+    wide: true,
+    body: `<p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">※ 並替はサイドバーの☰ハンドルをドラッグしてください。</p>${rows}`,
+    confirmLabel: '閉じる',
+    onConfirm: () => {}
+  });
+}
+
+// ── PROMPT CRUD ──
+function openAddPrompt() {
+  if (!currentCat) return;
+  showModal({
+    title: `＋ プロンプトを追加（${currentCat}）`,
+    body: `
+      <div class="form-group">
+        <label class="form-label">英語プロンプト *</label>
+        <input class="form-input" id="f_en" placeholder="例: long hair," autocomplete="off">
+        <div class="form-hint">AIに渡す英語テキスト</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">日本語説明</label>
+        <input class="form-input" id="f_ja" placeholder="例: ロングヘア" autocomplete="off">
+      </div>
+    `,
+    confirmLabel: '追加する', confirmClass: 'primary',
+    onConfirm: () => {
+      const en = document.getElementById('f_en').value.trim();
+      const ja = document.getElementById('f_ja').value.trim();
+      if (!en) { alert('英語プロンプトは必須です'); return false; }
+      data[currentCat].push({ en, ja });
+      saveLocalData();
+      renderSidebar();
+      renderGrid(data[currentCat], currentCat);
+      showToast(`✅ 追加: ${en}`);
+    }
+  });
+  setTimeout(() => document.getElementById('f_en').focus(), 50);
+}
+
+function openEditPrompt(idx, item) {
+  showModal({
+    title: '✏ プロンプトを編集',
+    body: `
+      <div class="form-group">
+        <label class="form-label">英語プロンプト *</label>
+        <input class="form-input" id="f_en" value="${escHtml(item.en)}" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">日本語説明</label>
+        <input class="form-input" id="f_ja" value="${escHtml(item.ja || '')}" autocomplete="off">
+      </div>
+    `,
+    confirmLabel: '保存する', confirmClass: 'primary',
+    onConfirm: () => {
+      const en = document.getElementById('f_en').value.trim();
+      const ja = document.getElementById('f_ja').value.trim();
+      if (!en) { alert('英語プロンプトは必須です'); return false; }
+      data[currentCat][idx] = { en, ja };
+      saveLocalData();
+      renderGrid(data[currentCat], currentCat);
+      showToast('✅ 更新しました');
+    }
+  });
+}
+
+function deletePrompt(idx) {
+  const item = data[currentCat][idx];
+  if (!confirm(`「${item.en}」を削除しますか？`)) return;
+  data[currentCat].splice(idx, 1);
+  saveLocalData();
+  renderSidebar();
+  renderGrid(data[currentCat], currentCat);
+  showToast('🗑 削除しました');
+}
+
+// ══════════════════════════════════════════
+//  SEARCH
+// ══════════════════════════════════════════
+document.getElementById('searchInput').addEventListener('input', e => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) {
+    if (currentCat) renderGrid(data[currentCat], currentCat);
+    else { document.getElementById('grid').innerHTML=''; document.getElementById('catTitle').textContent='カテゴリを選択'; document.getElementById('catSub').textContent=''; }
+    document.getElementById('catHeaderActions').style.display = currentCat ? 'flex' : 'none';
+    return;
+  }
+  document.getElementById('catHeaderActions').style.display = 'none';
+  const results = [];
+  Object.values(data).forEach(items =>
+    items.forEach(item => {
+      if (item.en.toLowerCase().includes(q) || (item.ja && item.ja.includes(q))) results.push(item);
+    })
+  );
+  renderGrid(results, `「${e.target.value}」の検索結果`);
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+});
+
+// ══════════════════════════════════════════
+//  MODAL ENGINE
+// ══════════════════════════════════════════
+function showModal({ title, body, confirmLabel='OK', confirmClass='', onConfirm, wide=false }) {
+  closeModal();
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'activeModal';
+  overlay.innerHTML = `
+    <div class="modal${wide ? ' wide' : ''}">
+      <div class="modal-header">
+        <h3>${escHtml(title)}</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">${body}</div>
+      <div class="modal-footer">
+        <button class="sm-btn" onclick="closeModal()">キャンセル</button>
+        <button class="sm-btn ${confirmClass}" id="modalConfirmBtn">${escHtml(confirmLabel)}</button>
+      </div>
+    </div>
+  `;
+  overlay.onclick = e => { if (e.target === overlay) closeModal(); };
+  document.body.appendChild(overlay);
+  document.getElementById('modalConfirmBtn').onclick = () => {
+    const result = onConfirm();
+    if (result !== false) closeModal();
+  };
+  overlay.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') document.getElementById('modalConfirmBtn').click();
+    if (e.key === 'Escape') closeModal();
+  });
+}
+function closeModal() {
+  const el = document.getElementById('activeModal');
+  if (el) el.remove();
+}
+
+// ══════════════════════════════════════════
+//  UTIL
+// ══════════════════════════════════════════
+function writeClip(text) {
+  navigator.clipboard.writeText(text).catch(() => {
+    const el = document.createElement('textarea');
+    el.value = text; document.body.appendChild(el); el.select();
+    document.execCommand('copy'); document.body.removeChild(el);
+  });
+}
+function showToast(msg) {
+  clearTimeout(toastTimer);
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+loadLocalData();
+
+// データが空ならGitHubから取得、なければデフォルト
+if (Object.keys(data).length === 0) {
+  if (syncUrl) {
+    fetchFromGitHub();
+  }
+}
+
+// syncUrlが設定済みなら起動時に同期
+if (syncUrl) {
+  setSyncStatus('loading', '同期中...');
+  fetchFromGitHub();
+} else {
+  setSyncStatus('', '未設定');
+}
+
+renderSidebar();
+const firstCat = catOrder[0];
+if (firstCat && data[firstCat]) {
+  currentCat = firstCat;
+  document.getElementById('catHeaderActions').style.display = 'flex';
+  renderGrid(data[firstCat], firstCat);
+  renderSidebar();
+}
+initMobile();
+
+// PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>

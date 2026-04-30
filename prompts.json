@@ -1,0 +1,1246 @@
+{
+  "画角": [
+    {
+      "en": "full body,",
+      "ja": "全身"
+    },
+    {
+      "en": "portrait,",
+      "ja": "ポートレート"
+    },
+    {
+      "en": "upper body,",
+      "ja": "上半身"
+    },
+    {
+      "en": "lower body,",
+      "ja": "下半身"
+    },
+    {
+      "en": "cowboy shot,",
+      "ja": "膝上より上"
+    },
+    {
+      "en": "feet out of frame,",
+      "ja": "足が画面外"
+    },
+    {
+      "en": "close-up,",
+      "ja": "顔のアップ"
+    },
+    {
+      "en": "profile,",
+      "ja": "横顔"
+    },
+    {
+      "en": "wide shot,",
+      "ja": "ワイドショット"
+    },
+    {
+      "en": "multiple views,",
+      "ja": "複数視点"
+    },
+    {
+      "en": "straight-on,",
+      "ja": "正面から"
+    },
+    {
+      "en": "from above,",
+      "ja": "上から"
+    },
+    {
+      "en": "from below,",
+      "ja": "下から"
+    },
+    {
+      "en": "from behind,",
+      "ja": "後ろから"
+    },
+    {
+      "en": "from side,",
+      "ja": "横から"
+    },
+    {
+      "en": "dutch angle,",
+      "ja": "斜めの構図"
+    },
+    {
+      "en": "sideways,",
+      "ja": "横向き"
+    },
+    {
+      "en": "upside-down,",
+      "ja": "逆さまに"
+    },
+    {
+      "en": "Taking a Selfie",
+      "ja": "自撮り"
+    },
+    {
+      "en": "Taking a Mirror Selfie",
+      "ja": "鏡越しの自撮り"
+    },
+    {
+      "en": "fisheye,",
+      "ja": "魚眼レンズ"
+    },
+    {
+      "en": "panorama,",
+      "ja": "パノラマ"
+    },
+    {
+      "en": "vanishing point,",
+      "ja": "消失点"
+    },
+    {
+      "en": "dynamic angle,dynamic pose",
+      "ja": "ダイナミックな角度・ポーズ"
+    }
+  ],
+  "作風": [
+    {
+      "en": "realistic illustration",
+      "ja": "リアルなイラスト"
+    },
+    {
+      "en": "realistic appearance",
+      "ja": "リアルな外観"
+    },
+    {
+      "en": "flat color",
+      "ja": "フラットカラー"
+    },
+    {
+      "en": "Soft line drawing",
+      "ja": "柔らかい線画"
+    },
+    {
+      "en": "watercolor style",
+      "ja": "水彩画"
+    },
+    {
+      "en": "oil painting style",
+      "ja": "油絵風"
+    },
+    {
+      "en": "palette knife",
+      "ja": "パレットナイフ"
+    },
+    {
+      "en": "marker painting",
+      "ja": "マーカー塗り"
+    },
+    {
+      "en": "ink drawing",
+      "ja": "インク描画"
+    },
+    {
+      "en": "pencil sketch",
+      "ja": "鉛筆画"
+    },
+    {
+      "en": "charcoal sketch",
+      "ja": "木炭スケッチ"
+    },
+    {
+      "en": "crayon drawing",
+      "ja": "クレヨン"
+    },
+    {
+      "en": "clean outlines",
+      "ja": "きれいな輪郭"
+    },
+    {
+      "en": "flat coloring",
+      "ja": "フラットカラーリング"
+    }
+  ],
+  "年齢層": [
+    {
+      "en": "teenage,",
+      "ja": "10代"
+    },
+    {
+      "en": "youth,",
+      "ja": "若者（10代後半〜20代前半）"
+    },
+    {
+      "en": "young adult,",
+      "ja": "若者（18〜25歳）"
+    },
+    {
+      "en": "man,",
+      "ja": "男性"
+    },
+    {
+      "en": "woman,",
+      "ja": "女性"
+    },
+    {
+      "en": "adult,",
+      "ja": "大人（18歳以上）"
+    },
+    {
+      "en": "20years old,",
+      "ja": "20歳"
+    },
+    {
+      "en": "20's,",
+      "ja": "20代"
+    },
+    {
+      "en": "middle-aged,",
+      "ja": "中年（40〜60代）"
+    },
+    {
+      "en": "elderly,",
+      "ja": "高齢者"
+    },
+    {
+      "en": "Mid 20s,",
+      "ja": "20代半ば"
+    },
+    {
+      "en": "Early 20s,",
+      "ja": "20代前半"
+    },
+    {
+      "en": "late 20s,",
+      "ja": "20代後半"
+    }
+  ],
+  "体系": [
+    {
+      "en": "skinny body,",
+      "ja": "やせすぎ"
+    },
+    {
+      "en": "slender body,",
+      "ja": "スレンダー"
+    },
+    {
+      "en": "slim body,",
+      "ja": "細身"
+    },
+    {
+      "en": "lean body,",
+      "ja": "引き締まった筋肉質"
+    },
+    {
+      "en": "normal build,",
+      "ja": "標準体型"
+    },
+    {
+      "en": "curvy body,",
+      "ja": "曲線美のある体型"
+    },
+    {
+      "en": "chubby body,",
+      "ja": "ぽっちゃり"
+    },
+    {
+      "en": "muscular body,",
+      "ja": "筋肉質"
+    },
+    {
+      "en": "athletic body,",
+      "ja": "アスリート体型"
+    },
+    {
+      "en": "model-like body,",
+      "ja": "モデル体型"
+    },
+    {
+      "en": "narrow waist,",
+      "ja": "くびれたウエスト"
+    }
+  ],
+  "胸・サイズ": [
+    {
+      "en": "flat chest,",
+      "ja": "平らな胸（まな板）"
+    },
+    {
+      "en": "small breasts,",
+      "ja": "小さい胸"
+    },
+    {
+      "en": "medium breasts,",
+      "ja": "中くらいの胸（普乳）"
+    },
+    {
+      "en": "large breasts,",
+      "ja": "大きい胸（巨乳）"
+    },
+    {
+      "en": "huge breasts,",
+      "ja": "超巨乳"
+    },
+    {
+      "en": "big breasts,",
+      "ja": "大きい胸"
+    },
+    {
+      "en": "gigantic breasts,",
+      "ja": "非常に大きな胸"
+    },
+    {
+      "en": "breasts,",
+      "ja": "胸（サイズ指定なし）"
+    },
+    {
+      "en": "cleavage,",
+      "ja": "胸の谷間"
+    },
+    {
+      "en": "cleavage cutout,",
+      "ja": "谷間カットアウト（服の切り抜き）"
+    },
+    {
+      "en": "bursting breasts,",
+      "ja": "胸がパツパツ（服がはじけそう）"
+    },
+    {
+      "en": "oversized breast cup,",
+      "ja": "カップがブカブカ"
+    },
+    {
+      "en": "small breasts, short torso,",
+      "ja": "小胸＋短い胴（詰まった可愛いバランス）"
+    },
+    {
+      "en": "large breasts, narrow waist,",
+      "ja": "大胸＋細ウエスト（ボリューム感＋引き締め）"
+    },
+    {
+      "en": "delicate arms, small breasts,",
+      "ja": "細腕＋小胸（上半身コンパクト）"
+    },
+    {
+      "en": "voluptuous body, wide hips,",
+      "ja": "豊満＋広い腰（大人のグラマー感）"
+    }
+  ],
+  "胸・形状・動き": [
+    {
+      "en": "hanging breasts,",
+      "ja": "釣鐘型・垂れた胸"
+    },
+    {
+      "en": "perky breasts,",
+      "ja": "ツンと上向きの胸"
+    },
+    {
+      "en": "bouncing breasts,",
+      "ja": "胸が揺れる（動きのある表現）"
+    },
+    {
+      "en": "breasts apart,",
+      "ja": "胸の間に隙間がある"
+    },
+    {
+      "en": "floating breasts,",
+      "ja": "重力に逆らって胸が浮く"
+    },
+    {
+      "en": "unaligned breasts,",
+      "ja": "左右の胸の向きがずれている"
+    },
+    {
+      "en": "saggy breasts,",
+      "ja": "垂れ乳"
+    },
+    {
+      "en": "veiny breasts,",
+      "ja": "胸に血管の模様が浮かぶ"
+    },
+    {
+      "en": "compressed breasts,",
+      "ja": "胸が押しつぶされている"
+    },
+    {
+      "en": "breasts pressed against glass,",
+      "ja": "ガラスに胸を押し付けている（乳ワイパー）"
+    },
+    {
+      "en": "against glass,",
+      "ja": "ガラスに寄りかかっている"
+    },
+    {
+      "en": "breast-to-breast,",
+      "ja": "胸と胸が密着（胸合わせ）"
+    },
+    {
+      "en": "symmetrical docking,",
+      "ja": "左右対称に胸が密着"
+    }
+  ],
+  "胸・ポーズ・接触": [
+    {
+      "en": "breast hold,",
+      "ja": "腕を組んで胸を支えるポーズ"
+    },
+    {
+      "en": "breast lift,",
+      "ja": "手で胸を持ち上げる"
+    },
+    {
+      "en": "breasts squeezed together,",
+      "ja": "胸を寄せて強調するポーズ"
+    },
+    {
+      "en": "breast suppress,",
+      "ja": "胸を上から押さえるポーズ"
+    },
+    {
+      "en": "groping,",
+      "ja": "背後から胸を触る仕草"
+    },
+    {
+      "en": "grabbing another's breast,",
+      "ja": "他人の胸を揉む"
+    },
+    {
+      "en": "mutual hug,",
+      "ja": "お互いに抱き合っている"
+    },
+    {
+      "en": "hands press,",
+      "ja": "手をガラスに押し付けている"
+    },
+    {
+      "en": "cheek press,",
+      "ja": "頬をガラスに押し付けている"
+    },
+    {
+      "en": "button gap,",
+      "ja": "シャツのボタンの隙間から肌が見える"
+    },
+    {
+      "en": "strap gap,",
+      "ja": "肩紐と胸の間に隙間（肌が見える）"
+    },
+    {
+      "en": "suspenders gap,",
+      "ja": "サスペンダーとお腹の間に隙間"
+    }
+  ],
+  "身長": [
+    {
+      "en": "short,",
+      "ja": "背が低い"
+    },
+    {
+      "en": "petite,",
+      "ja": "小柄で可愛らしい"
+    },
+    {
+      "en": "average height,",
+      "ja": "平均的な身長"
+    },
+    {
+      "en": "tall,",
+      "ja": "背が高い"
+    },
+    {
+      "en": "towering,",
+      "ja": "非常に高い"
+    },
+    {
+      "en": "tiny,",
+      "ja": "非常に小さな"
+    }
+  ],
+  "手脚の長さ": [
+    {
+      "en": "long legs,",
+      "ja": "長い脚"
+    },
+    {
+      "en": "slender legs,",
+      "ja": "ほっそりとした長い脚"
+    },
+    {
+      "en": "long limbs,",
+      "ja": "長い手足"
+    },
+    {
+      "en": "short legs,",
+      "ja": "短い脚"
+    },
+    {
+      "en": "stubby legs,",
+      "ja": "ずんぐりした短い脚"
+    },
+    {
+      "en": "lanky,",
+      "ja": "手足の長い"
+    }
+  ],
+  "輪郭": [
+    {
+      "en": "round face,",
+      "ja": "丸顔"
+    },
+    {
+      "en": "slender face,",
+      "ja": "細顔"
+    },
+    {
+      "en": "square face,",
+      "ja": "四角顔"
+    },
+    {
+      "en": "baby face,",
+      "ja": "童顔"
+    },
+    {
+      "en": "small face,",
+      "ja": "小顔"
+    },
+    {
+      "en": "sharp features,",
+      "ja": "彫りの深い顔"
+    },
+    {
+      "en": "oval face,",
+      "ja": "卵型の顔"
+    },
+    {
+      "en": "high cheekbones,",
+      "ja": "高い頬骨"
+    },
+    {
+      "en": "strong jawline,",
+      "ja": "強力な顎線"
+    }
+  ],
+  "目の形": [
+    {
+      "en": "small eyes,",
+      "ja": "小さな目"
+    },
+    {
+      "en": "big eyes,",
+      "ja": "大きな目"
+    },
+    {
+      "en": "narrow eyes,",
+      "ja": "細い目"
+    },
+    {
+      "en": "almond-shaped eyes,",
+      "ja": "アーモンド形の目"
+    },
+    {
+      "en": "round eyes,",
+      "ja": "丸い目"
+    },
+    {
+      "en": "upturned eyes,",
+      "ja": "つり目"
+    },
+    {
+      "en": "droopy eyes,",
+      "ja": "たれ目"
+    },
+    {
+      "en": "double eyelids,",
+      "ja": "二重まぶた"
+    }
+  ],
+  "目の状態": [
+    {
+      "en": "soft eyes,",
+      "ja": "優しい目"
+    },
+    {
+      "en": "sparkling eyes,",
+      "ja": "輝いている目"
+    },
+    {
+      "en": "sleepy eyes,",
+      "ja": "眠そうな目"
+    },
+    {
+      "en": "sad eyes,",
+      "ja": "悲しい目"
+    },
+    {
+      "en": "angry eyes,",
+      "ja": "怒った目"
+    },
+    {
+      "en": "heart-shaped pupils,",
+      "ja": "ハート型の瞳孔"
+    },
+    {
+      "en": "star-shaped pupils,",
+      "ja": "星の瞳"
+    },
+    {
+      "en": "eyes closed,",
+      "ja": "目を閉じている"
+    },
+    {
+      "en": "jitome,",
+      "ja": "ジト目"
+    }
+  ],
+  "瞳の色": [
+    {
+      "en": "brown eyes",
+      "ja": "茶"
+    },
+    {
+      "en": "amber eyes",
+      "ja": "琥珀（明るい茶色）"
+    },
+    {
+      "en": "blue eyes",
+      "ja": "青"
+    },
+    {
+      "en": "sky blue eyes",
+      "ja": "空色"
+    },
+    {
+      "en": "aqua eyes",
+      "ja": "青緑"
+    },
+    {
+      "en": "green eyes",
+      "ja": "緑"
+    },
+    {
+      "en": "violet eyes",
+      "ja": "紫"
+    },
+    {
+      "en": "gray eyes",
+      "ja": "灰"
+    },
+    {
+      "en": "black eyes",
+      "ja": "黒"
+    },
+    {
+      "en": "starry eyes",
+      "ja": "星のような輝き"
+    }
+  ],
+  "眉": [
+    {
+      "en": "thin eyebrows",
+      "ja": "細い眉毛"
+    },
+    {
+      "en": "dark eyebrows",
+      "ja": "濃い眉毛"
+    },
+    {
+      "en": "thick eyebrows",
+      "ja": "太い眉毛"
+    },
+    {
+      "en": "straight eyebrows",
+      "ja": "ストレート眉毛"
+    },
+    {
+      "en": "natural eyebrows",
+      "ja": "ナチュラルな眉毛"
+    },
+    {
+      "en": "arched eyebrows",
+      "ja": "アーチ型眉毛"
+    },
+    {
+      "en": "troubled eyebrows",
+      "ja": "困り眉"
+    }
+  ],
+  "鼻": [
+    {
+      "en": "small nose",
+      "ja": "小さな鼻"
+    },
+    {
+      "en": "big nose",
+      "ja": "大きな鼻"
+    },
+    {
+      "en": "straight nose",
+      "ja": "真っ直ぐな鼻"
+    },
+    {
+      "en": "upturned nose",
+      "ja": "鼻先が上向き"
+    },
+    {
+      "en": "pointed nose",
+      "ja": "とんがった鼻"
+    },
+    {
+      "en": "flat nose",
+      "ja": "平たい鼻"
+    }
+  ],
+  "口・唇": [
+    {
+      "en": "wide mouth",
+      "ja": "大きな口"
+    },
+    {
+      "en": "small mouth",
+      "ja": "小さな口"
+    },
+    {
+      "en": "full lips",
+      "ja": "ふっくらとした唇"
+    },
+    {
+      "en": "thin lips",
+      "ja": "薄い唇"
+    },
+    {
+      "en": "heart-shaped lips",
+      "ja": "ハート型の唇"
+    },
+    {
+      "en": "parted lips",
+      "ja": "開いた唇"
+    },
+    {
+      "en": "lip gloss",
+      "ja": "リップグロス"
+    }
+  ],
+  "表情": [
+    {
+      "en": "smile",
+      "ja": "笑顔"
+    },
+    {
+      "en": "Happy expression",
+      "ja": "幸せな表情"
+    },
+    {
+      "en": "affectionate",
+      "ja": "愛情深い"
+    },
+    {
+      "en": "light smile",
+      "ja": "軽い笑顔"
+    },
+    {
+      "en": "naughty-face",
+      "ja": "いたずら顔"
+    },
+    {
+      "en": "confident smirk",
+      "ja": "自信に満ちた笑み"
+    },
+    {
+      "en": "evil grin",
+      "ja": "邪悪な笑み"
+    }
+  ],
+  "髪型・男性": [
+    {
+      "en": "shaved head",
+      "ja": "坊主頭"
+    },
+    {
+      "en": "buzz cut",
+      "ja": "坊主頭（やや長め）"
+    },
+    {
+      "en": "pompadour",
+      "ja": "リーゼント"
+    },
+    {
+      "en": "swept back hair",
+      "ja": "オールバック"
+    },
+    {
+      "en": "spiked hair",
+      "ja": "スパイクヘア"
+    },
+    {
+      "en": "mushroom cut",
+      "ja": "マッシュルームカット"
+    }
+  ],
+  "髪型・女性": [
+    {
+      "en": "very short hair",
+      "ja": "ベリーショート"
+    },
+    {
+      "en": "short hair",
+      "ja": "ショートヘア"
+    },
+    {
+      "en": "medium hair",
+      "ja": "ミディアムヘア"
+    },
+    {
+      "en": "long hair",
+      "ja": "ロングヘア"
+    },
+    {
+      "en": "bob",
+      "ja": "ボブ"
+    },
+    {
+      "en": "blunt bob",
+      "ja": "切りっぱなしボブ"
+    },
+    {
+      "en": "straight hair",
+      "ja": "ストレートヘア"
+    },
+    {
+      "en": "wavy hair",
+      "ja": "ウェーブヘア"
+    },
+    {
+      "en": "pixie cut",
+      "ja": "ピクシーカット"
+    },
+    {
+      "en": "ponytail",
+      "ja": "ポニーテール"
+    },
+    {
+      "en": "twin tails",
+      "ja": "ツインテール"
+    },
+    {
+      "en": "bun hairstyle",
+      "ja": "お団子ヘア"
+    },
+    {
+      "en": "braided hair",
+      "ja": "編み込み"
+    },
+    {
+      "en": "curly hair",
+      "ja": "くせ毛"
+    },
+    {
+      "en": "bangs",
+      "ja": "前髪あり"
+    },
+    {
+      "en": "blunt bangs",
+      "ja": "前髪ぱっつん"
+    }
+  ],
+  "髪色": [
+    {
+      "en": "black hair",
+      "ja": "黒髪"
+    },
+    {
+      "en": "blonde hair",
+      "ja": "金髪"
+    },
+    {
+      "en": "brown hair",
+      "ja": "茶髪"
+    },
+    {
+      "en": "red hair",
+      "ja": "赤毛"
+    },
+    {
+      "en": "white hair",
+      "ja": "白髪"
+    },
+    {
+      "en": "silver hair",
+      "ja": "銀髪"
+    },
+    {
+      "en": "blue hair",
+      "ja": "青髪"
+    },
+    {
+      "en": "green hair",
+      "ja": "緑髪"
+    },
+    {
+      "en": "purple hair",
+      "ja": "紫髪"
+    },
+    {
+      "en": "pink hair",
+      "ja": "ピンク髪"
+    },
+    {
+      "en": "rainbow-colored hair",
+      "ja": "虹色の髪"
+    },
+    {
+      "en": "gradient hair",
+      "ja": "グラデーション髪"
+    }
+  ],
+  "色ニュアンス": [
+    {
+      "en": "light",
+      "ja": "淡い"
+    },
+    {
+      "en": "dark",
+      "ja": "暗い"
+    },
+    {
+      "en": "bright",
+      "ja": "明るい"
+    },
+    {
+      "en": "pale",
+      "ja": "青白い"
+    },
+    {
+      "en": "pastel",
+      "ja": "パステル"
+    },
+    {
+      "en": "neon",
+      "ja": "ネオン"
+    },
+    {
+      "en": "metallic",
+      "ja": "金属光沢"
+    },
+    {
+      "en": "vivid",
+      "ja": "鮮やかな"
+    },
+    {
+      "en": "saturated",
+      "ja": "彩度の高い"
+    }
+  ],
+  "肌質": [
+    {
+      "en": "pale skin",
+      "ja": "白い肌"
+    },
+    {
+      "en": "fair skin",
+      "ja": "色白"
+    },
+    {
+      "en": "wheatish skin",
+      "ja": "小麦肌"
+    },
+    {
+      "en": "tanned skin",
+      "ja": "日焼けした肌"
+    },
+    {
+      "en": "brown skin",
+      "ja": "茶色肌"
+    },
+    {
+      "en": "dark skin",
+      "ja": "褐色肌"
+    },
+    {
+      "en": "shiny skin",
+      "ja": "つやつやの肌"
+    },
+    {
+      "en": "smooth skin",
+      "ja": "なめらかな肌"
+    }
+  ],
+  "人種": [
+    {
+      "en": "japanese",
+      "ja": "日本人"
+    },
+    {
+      "en": "asian",
+      "ja": "アジア人"
+    },
+    {
+      "en": "white person",
+      "ja": "白人"
+    },
+    {
+      "en": "european",
+      "ja": "ヨーロッパ人"
+    },
+    {
+      "en": "elf",
+      "ja": "エルフ"
+    },
+    {
+      "en": "fairy",
+      "ja": "妖精"
+    },
+    {
+      "en": "angel",
+      "ja": "天使"
+    },
+    {
+      "en": "demon",
+      "ja": "悪魔"
+    },
+    {
+      "en": "vampire",
+      "ja": "ヴァンパイア"
+    },
+    {
+      "en": "mermaid",
+      "ja": "マーメイド"
+    }
+  ],
+  "場所・背景": [
+    {
+      "en": "flower garden",
+      "ja": "花園"
+    },
+    {
+      "en": "indoors",
+      "ja": "屋内"
+    },
+    {
+      "en": "At school",
+      "ja": "学校で"
+    },
+    {
+      "en": "At the gym",
+      "ja": "ジムで"
+    },
+    {
+      "en": "At the seaside",
+      "ja": "海辺"
+    },
+    {
+      "en": "at the Poolside",
+      "ja": "プールサイド"
+    }
+  ],
+  "背景・効果": [
+    {
+      "en": "simple background",
+      "ja": "シンプルな背景"
+    },
+    {
+      "en": "realistic shadow",
+      "ja": "リアルな影"
+    },
+    {
+      "en": "atmospheric lights",
+      "ja": "雰囲気のあるライト"
+    },
+    {
+      "en": "ethereal glow",
+      "ja": "霊妙な輝き"
+    },
+    {
+      "en": "light particles",
+      "ja": "光の粒子"
+    },
+    {
+      "en": "dark theme",
+      "ja": "ダークテーマ"
+    }
+  ],
+  "体勢": [
+    {
+      "en": "Leaning forward",
+      "ja": "前かがみ"
+    },
+    {
+      "en": "contrapposto",
+      "ja": "コントラポスト"
+    },
+    {
+      "en": "looking back",
+      "ja": "振り返って"
+    },
+    {
+      "en": "cross legs",
+      "ja": "足を組む"
+    },
+    {
+      "en": "playful pose",
+      "ja": "遊び心のあるポーズ"
+    },
+    {
+      "en": "open legs",
+      "ja": "開脚"
+    },
+    {
+      "en": "Arch your back",
+      "ja": "背中を反らす"
+    },
+    {
+      "en": "crouching",
+      "ja": "しゃがむ"
+    }
+  ],
+  "プレイ内容": [
+    {
+      "en": "vaginal-sex",
+      "ja": "膣性交"
+    },
+    {
+      "en": "masturbation",
+      "ja": "オナニー"
+    },
+    {
+      "en": "lesbian-sex",
+      "ja": "レズビアンセックス"
+    },
+    {
+      "en": "anal-sex",
+      "ja": "アナルセックス"
+    },
+    {
+      "en": "blowjob",
+      "ja": "フェラチオ"
+    },
+    {
+      "en": "handjob",
+      "ja": "手コキ"
+    },
+    {
+      "en": "paizuri",
+      "ja": "パイズリ"
+    },
+    {
+      "en": "missionary position",
+      "ja": "正常位"
+    },
+    {
+      "en": "woman on top",
+      "ja": "騎乗位"
+    },
+    {
+      "en": "doggy style",
+      "ja": "後背位"
+    },
+    {
+      "en": "tight Hug",
+      "ja": "タイトハグ"
+    }
+  ],
+  "服装・体特徴": [
+    {
+      "en": "Completely naked",
+      "ja": "完全に裸"
+    },
+    {
+      "en": "Bikini-tan-lines",
+      "ja": "ビキニの日焼け跡"
+    },
+    {
+      "en": "Swimsuit",
+      "ja": "水着"
+    },
+    {
+      "en": "Uncensored",
+      "ja": "無修正"
+    }
+  ],
+  "身体パーツ": [
+    {
+      "en": "pussy",
+      "ja": "プッシー"
+    },
+    {
+      "en": "spread pussy",
+      "ja": "広げたオマンコ"
+    },
+    {
+      "en": "wet-pussy",
+      "ja": "濡れたおまんこ"
+    },
+    {
+      "en": "big penis",
+      "ja": "大きなペニス"
+    },
+    {
+      "en": "hanging breasts,",
+      "ja": "垂れ乳"
+    },
+    {
+      "en": "perky breasts,",
+      "ja": "上向きの胸"
+    }
+  ],
+  "アイテム": [
+    {
+      "en": "heart",
+      "ja": "ハート"
+    },
+    {
+      "en": "speech bubble",
+      "ja": "吹き出し"
+    },
+    {
+      "en": "dildo",
+      "ja": "ディルド"
+    },
+    {
+      "en": "vibrator",
+      "ja": "バイブレーター"
+    },
+    {
+      "en": "squirting",
+      "ja": "潮吹き"
+    },
+    {
+      "en": "pov",
+      "ja": "主観"
+    }
+  ],
+  "動作": [
+    {
+      "en": "puckered lips",
+      "ja": "すぼめた唇"
+    },
+    {
+      "en": "trembling",
+      "ja": "震え"
+    },
+    {
+      "en": "tearing up",
+      "ja": "涙を流す"
+    },
+    {
+      "en": "open mouth",
+      "ja": "口を開けて"
+    },
+    {
+      "en": "sweating",
+      "ja": "発汗"
+    },
+    {
+      "en": "tongue out",
+      "ja": "舌を出す"
+    },
+    {
+      "en": "drooling",
+      "ja": "よだれを垂らす"
+    }
+  ],
+  "学校": [
+    {
+      "en": "classroom",
+      "ja": "教室"
+    },
+    {
+      "en": "principal's office",
+      "ja": "校長室"
+    }
+  ]
+}
